@@ -1,8 +1,8 @@
-# WP-Database-Inspector
+# Database-Inspector
 WP Database Inspector is a lightweight WordPress admin tool that inspects database and cache usage, highlights autoloaded options and transients, and provides safe, manual cleanup actions with a clear health overview.
-# WordPress Database Inspector
+# Database Inspector
 
-**WordPress Database Inspector** is a lightweight, admin-only utility plugin that helps you inspect database and cache usage in WordPress and safely clean up clutter when needed.
+**Database Inspector** is a lightweight, admin-only utility plugin that helps you inspect database and cache usage in WordPress and safely clean up clutter when needed.
 
 This plugin focuses on **visibility first** — showing you where bloat exists before offering optional, manual cleanup actions.
 
