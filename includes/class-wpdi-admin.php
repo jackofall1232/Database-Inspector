@@ -115,6 +115,7 @@ class WPDI_Admin {
 
 		// Suppress errors for hosts that restrict information_schema access.
 		$wpdb->suppress_errors( true );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$db_size_result = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT SUM(data_length + index_length) FROM information_schema.TABLES WHERE table_schema = %s",
@@ -126,6 +127,7 @@ class WPDI_Admin {
 			$db_size = (int) $db_size_result;
 
 			// Options table size (only attempt if first query succeeded).
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 			$options_size_result = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT data_length + index_length FROM information_schema.TABLES WHERE table_schema = %s AND table_name = %s",
@@ -137,11 +139,12 @@ class WPDI_Admin {
 		}
 		$wpdb->suppress_errors( false );
 
-		$stats['total_db_size']          = $db_size;
-		$stats['options_table_size']     = $options_size;
-		$stats['info_schema_available']  = ( $db_size > 0 );
+		$stats['total_db_size']         = $db_size;
+		$stats['options_table_size']    = $options_size;
+		$stats['info_schema_available'] = ( $db_size > 0 );
 
 		// Autoloaded options.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$autoload_result = $wpdb->get_row(
 			"SELECT COUNT(*) as count, SUM(LENGTH(option_value)) as size FROM {$wpdb->options} WHERE autoload = 'yes'"
 		);
@@ -152,9 +155,9 @@ class WPDI_Admin {
 		$like_transient         = '%' . $wpdb->esc_like( '_transient_' ) . '%';
 		$like_site_transient    = '%' . $wpdb->esc_like( '_site_transient_' ) . '%';
 		$like_transient_timeout = '%' . $wpdb->esc_like( '_transient_timeout_' ) . '%';
-		$like_site_timeout      = '%' . $wpdb->esc_like( '_site_transient_timeout_' ) . '%';
 
 		// Transients.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$transient_count = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
@@ -165,6 +168,7 @@ class WPDI_Admin {
 		$stats['transient_count'] = (int) $transient_count;
 
 		// Expired transients.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$expired_transients = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE %s AND option_value < %d",
@@ -175,42 +179,49 @@ class WPDI_Admin {
 		$stats['expired_transients'] = (int) $expired_transients;
 
 		// Post revisions.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$revisions = $wpdb->get_var(
 			"SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_type = 'revision'"
 		);
 		$stats['revisions_count'] = (int) $revisions;
 
 		// Auto-drafts.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$auto_drafts = $wpdb->get_var(
 			"SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_status = 'auto-draft'"
 		);
 		$stats['auto_drafts_count'] = (int) $auto_drafts;
 
 		// Trashed posts.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$trashed = $wpdb->get_var(
 			"SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_status = 'trash'"
 		);
 		$stats['trashed_posts_count'] = (int) $trashed;
 
 		// Orphaned postmeta.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$orphaned_postmeta = $wpdb->get_var(
 			"SELECT COUNT(*) FROM {$wpdb->postmeta} pm LEFT JOIN {$wpdb->posts} p ON pm.post_id = p.ID WHERE p.ID IS NULL"
 		);
 		$stats['orphaned_postmeta'] = (int) $orphaned_postmeta;
 
 		// Orphaned commentmeta.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$orphaned_commentmeta = $wpdb->get_var(
 			"SELECT COUNT(*) FROM {$wpdb->commentmeta} cm LEFT JOIN {$wpdb->comments} c ON cm.comment_id = c.comment_ID WHERE c.comment_ID IS NULL"
 		);
 		$stats['orphaned_commentmeta'] = (int) $orphaned_commentmeta;
 
 		// Spam comments.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$spam_comments = $wpdb->get_var(
 			"SELECT COUNT(*) FROM {$wpdb->comments} WHERE comment_approved = 'spam'"
 		);
 		$stats['spam_comments'] = (int) $spam_comments;
 
 		// Trashed comments.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$trashed_comments = $wpdb->get_var(
 			"SELECT COUNT(*) FROM {$wpdb->comments} WHERE comment_approved = 'trash'"
 		);
@@ -220,6 +231,7 @@ class WPDI_Admin {
 		$stats['object_cache_enabled'] = wp_using_ext_object_cache();
 
 		// Top autoloaded options (for detailed view).
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time database metrics require direct queries.
 		$top_autoload = $wpdb->get_results(
 			"SELECT option_name, LENGTH(option_value) as size FROM {$wpdb->options} WHERE autoload = 'yes' ORDER BY size DESC LIMIT 20"
 		);
@@ -393,7 +405,8 @@ class WPDI_Admin {
 			case 'expired_transients':
 				// Handle regular transients.
 				$like_timeout = '%' . $wpdb->esc_like( '_transient_timeout_' ) . '%';
-				$expired      = $wpdb->get_col(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Cleanup operation requires direct query.
+				$expired = $wpdb->get_col(
 					$wpdb->prepare(
 						"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s AND option_value < %d",
 						$like_timeout,
@@ -409,7 +422,8 @@ class WPDI_Admin {
 				// Handle site transients on multisite.
 				if ( is_multisite() ) {
 					$like_site_timeout = '%' . $wpdb->esc_like( '_site_transient_timeout_' ) . '%';
-					$expired_site      = $wpdb->get_col(
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Cleanup operation requires direct query.
+					$expired_site = $wpdb->get_col(
 						$wpdb->prepare(
 							"SELECT meta_key FROM {$wpdb->sitemeta} WHERE meta_key LIKE %s AND meta_value < %d",
 							$like_site_timeout,
@@ -425,9 +439,10 @@ class WPDI_Admin {
 				break;
 
 			case 'all_transients':
-				$like_transient   = '%' . $wpdb->esc_like( '_transient_' ) . '%';
-				$like_site_tran   = '%' . $wpdb->esc_like( '_site_transient_' ) . '%';
-				$deleted          = $wpdb->query(
+				$like_transient = '%' . $wpdb->esc_like( '_transient_' ) . '%';
+				$like_site_tran = '%' . $wpdb->esc_like( '_site_transient_' ) . '%';
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Bulk cleanup requires direct query.
+				$deleted = $wpdb->query(
 					$wpdb->prepare(
 						"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
 						$like_transient,
@@ -437,6 +452,7 @@ class WPDI_Admin {
 				break;
 
 			case 'revisions':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Cleanup operation requires direct query.
 				$revision_ids = $wpdb->get_col(
 					"SELECT ID FROM {$wpdb->posts} WHERE post_type = 'revision'"
 				);
@@ -447,6 +463,7 @@ class WPDI_Admin {
 				break;
 
 			case 'auto_drafts':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Cleanup operation requires direct query.
 				$draft_ids = $wpdb->get_col(
 					"SELECT ID FROM {$wpdb->posts} WHERE post_status = 'auto-draft'"
 				);
@@ -457,6 +474,7 @@ class WPDI_Admin {
 				break;
 
 			case 'trashed_posts':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Cleanup operation requires direct query.
 				$trashed_ids = $wpdb->get_col(
 					"SELECT ID FROM {$wpdb->posts} WHERE post_status = 'trash'"
 				);
@@ -467,18 +485,21 @@ class WPDI_Admin {
 				break;
 
 			case 'orphaned_postmeta':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Bulk cleanup requires direct query.
 				$deleted = $wpdb->query(
 					"DELETE pm FROM {$wpdb->postmeta} pm LEFT JOIN {$wpdb->posts} p ON pm.post_id = p.ID WHERE p.ID IS NULL"
 				);
 				break;
 
 			case 'orphaned_commentmeta':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Bulk cleanup requires direct query.
 				$deleted = $wpdb->query(
 					"DELETE cm FROM {$wpdb->commentmeta} cm LEFT JOIN {$wpdb->comments} c ON cm.comment_id = c.comment_ID WHERE c.comment_ID IS NULL"
 				);
 				break;
 
 			case 'spam_comments':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Cleanup operation requires direct query.
 				$spam_ids = $wpdb->get_col(
 					"SELECT comment_ID FROM {$wpdb->comments} WHERE comment_approved = 'spam'"
 				);
@@ -489,6 +510,7 @@ class WPDI_Admin {
 				break;
 
 			case 'trashed_comments':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Cleanup operation requires direct query.
 				$trashed_ids = $wpdb->get_col(
 					"SELECT comment_ID FROM {$wpdb->comments} WHERE comment_approved = 'trash'"
 				);
@@ -758,3 +780,4 @@ class WPDI_Admin {
 		<?php
 	}
 }
+
