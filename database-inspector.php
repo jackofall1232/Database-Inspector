@@ -1,19 +1,19 @@
 <?php
 /**
- * Plugin Name:       WP Database Inspector
- * Plugin URI:        https://github.com/your-username/wp-database-inspector
+ * Plugin Name:       Database Inspector
+ * Plugin URI:        https://github.com/jackofall1232/database-inspector
  * Description:       Visualizes database and cache usage, identifies bloated entries, and allows safe manual cleanup.
  * Version:           0.1.0
- * Requires at least: 6.0
+ * Requires at least: 6.9
  * Requires PHP:      7.4
- * Author:            Community
+ * Author:            jackofall1232
  * Author URI:        https://wordpress.org
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       wp-database-inspector
+ * Text Domain:       database-inspector
  * Domain Path:       /languages
  *
- * @package WP_Database_Inspector
+ * @package Database_Inspector
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,7 +25,7 @@ define( 'WPDI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Main plugin class.
  */
-final class WP_Database_Inspector {
+final class Database_Inspector {
 
 	/**
 	 * Single instance.
