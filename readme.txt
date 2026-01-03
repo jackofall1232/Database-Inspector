@@ -1,10 +1,10 @@
 === Database Inspector ===
 Contributors: jackofall1232
 Tags: database cleaner, transients, cache, performance, admin tools
-Requires at least: 6.0
+Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,10 @@ Yes. Developers can enable read-only mode using the `wpdi_read_only` filter.
 
 == Changelog ==
 
+= 0.1.1 =
+* Naming and compliance updates
+* Plugin Check fixes
+* No functional changes
 
 = 0.1.0 =
 * Initial release
@@ -70,6 +74,9 @@ Yes. Developers can enable read-only mode using the `wpdi_read_only` filter.
 * Multisite compatibility
 
 == Upgrade Notice ==
+
+= 0.1.1 =
+Compliance update. No functional changes.
 
 == Developer Notes ==
 
