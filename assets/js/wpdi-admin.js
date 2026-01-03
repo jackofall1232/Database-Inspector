@@ -1,7 +1,7 @@
 /**
- * WP Database Inspector Admin JavaScript
+ * Database Inspector Admin JavaScript
  *
- * @package WP_Database_Inspector
+ * @package Database_Inspector
  */
 
 ( function( $ ) {
