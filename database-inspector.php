@@ -30,14 +30,14 @@ final class Database_Inspector {
 	/**
 	 * Single instance.
 	 *
-	 * @var WP_Database_Inspector|null
+	 * @var Database_Inspector|null
 	 */
 	private static $instance = null;
 
 	/**
 	 * Get instance.
 	 *
-	 * @return WP_Database_Inspector
+	 * @return Database_Inspector
 	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -65,49 +65,37 @@ final class Database_Inspector {
 	 * Initialize hooks.
 	 */
 	private function init_hooks() {
-		add_action( 'init', array( $this, 'load_textdomain' ) );
-
+		// No manual load_plugin_textdomain() needed on WP.org (WP ≥ 4.6).
 		if ( is_admin() ) {
 			WPDI_Admin::instance();
 		}
 	}
 
 	/**
-	 * Load textdomain.
-	 */
-	public function load_textdomain() {
-		load_plugin_textdomain(
-			'wp-database-inspector',
-			false,
-			dirname( plugin_basename( __FILE__ ) ) . '/languages'
-		);
-	}
-
-	/**
 	 * Activation hook.
 	 */
 	public static function activate() {
-		// Future: add any activation tasks.
+		// Reserved for future use.
 	}
 
 	/**
 	 * Deactivation hook.
 	 */
 	public static function deactivate() {
-		// Future: add any deactivation tasks.
+		// Reserved for future use.
 	}
 }
 
-register_activation_hook( __FILE__, array( 'WP_Database_Inspector', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'WP_Database_Inspector', 'deactivate' ) );
+register_activation_hook( __FILE__, array( 'Database_Inspector', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'Database_Inspector', 'deactivate' ) );
 
 /**
  * Initialize plugin.
  *
- * @return WP_Database_Inspector
+ * @return Database_Inspector
  */
 function wpdi() {
-	return WP_Database_Inspector::instance();
+	return Database_Inspector::instance();
 }
 
 wpdi();
