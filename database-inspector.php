@@ -3,7 +3,7 @@
  * Plugin Name:       Database Inspector
  * Plugin URI:        https://github.com/jackofall1232/database-inspector
  * Description:       Visualizes database and cache usage, identifies bloated entries, and allows safe manual cleanup.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * Author:            jackofall1232
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WPDI_VERSION', '0.1.0' );
+define( 'WPDI_VERSION', '0.1.1' );
 define( 'WPDI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPDI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
