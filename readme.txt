@@ -1,18 +1,18 @@
-=== WordPress Database Inspector ===
+=== Database Inspector ===
 Contributors: jackofall1232
 Tags: database cleaner, transients, cache, performance, admin tools
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Inspect database usage, autoloaded options, transients, and safely clean WordPress database clutter from a single admin dashboard.
+Inspect database usage, autoloaded options, transients, and safely clean database clutter from a single admin dashboard.
 
 == Description ==
 
-**WordPress Database Inspector** is a lightweight, admin-only utility designed to help site administrators understand what is stored in their WordPress database and cache — and clean it up safely when needed.
+**Database Inspector** is a lightweight, admin-only utility designed to help site administrators understand what is stored in their site’s database and cache — and clean it up safely when needed.
 
 Unlike aggressive “optimizer” plugins, Database Inspector focuses on **visibility first**, showing you where bloat exists before offering optional, manual cleanup actions.
 
@@ -28,11 +28,11 @@ Unlike aggressive “optimizer” plugins, Database Inspector focuses on **visib
 * Multisite-aware and shared-host safe
 * No frontend impact — admin-only
 
-All cleanup actions require explicit confirmation and are protected by WordPress nonces and capability checks.
+All cleanup actions require explicit confirmation and are protected by nonces and capability checks.
 
 == Installation ==
 
-1. Upload the plugin folder to `/wp-content/plugins/`, or install via the WordPress Plugins screen.
+1. Upload the plugin folder to `/wp-content/plugins/`, or install via the Plugins screen.
 2. Activate the plugin through the **Plugins** menu.
 3. Navigate to **Tools → DB Inspector** to view database statistics.
 
@@ -48,7 +48,7 @@ Yes. If database size information is restricted by your host, the plugin degrade
 Yes. Multisite installations are supported, including site transients and object cache detection.
 
 = Does this affect frontend performance? =
-No. The plugin loads only in the WordPress admin area.
+No. The plugin loads only in the admin area.
 
 = Can I disable cleanup actions? =
 Yes. Developers can enable read-only mode using the `wpdi_read_only` filter.
@@ -61,6 +61,11 @@ Yes. Developers can enable read-only mode using the `wpdi_read_only` filter.
 
 == Changelog ==
 
+= 0.1.1 =
+* Naming and compliance updates
+* Plugin Check fixes
+* No functional changes
+
 = 0.1.0 =
 * Initial release
 * Database inspection dashboard
@@ -70,11 +75,11 @@ Yes. Developers can enable read-only mode using the `wpdi_read_only` filter.
 
 == Upgrade Notice ==
 
-= 0.1.0 =
-Initial release.
+= 0.1.1 =
+Compliance update. No functional changes.
 
 == Developer Notes ==
 
-This plugin follows WordPress coding standards and avoids aggressive optimization tactics. It is intended as a transparent inspection and maintenance tool, not an automatic optimizer.
+This plugin follows coding standards and avoids aggressive optimization tactics. It is intended as a transparent inspection and maintenance tool, not an automatic optimizer.
 
 Filters and actions are provided for extensibility.
