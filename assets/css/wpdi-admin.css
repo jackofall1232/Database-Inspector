@@ -1,0 +1,337 @@
+/**
+ * WP Database Inspector Admin Styles
+ *
+ * @package WP_Database_Inspector
+ */
+
+.wpdi-wrap {
+	max-width: 1200px;
+}
+
+.wpdi-wrap h1 {
+	margin-bottom: 20px;
+}
+
+/* Dashboard Grid */
+.wpdi-dashboard {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+	margin-bottom: 20px;
+}
+
+@media (max-width: 782px) {
+	.wpdi-dashboard {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Cards */
+.wpdi-card {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	padding: 20px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.wpdi-card h2 {
+	margin: 0 0 15px;
+	padding: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d2327;
+	border-bottom: 1px solid #f0f0f1;
+	padding-bottom: 10px;
+}
+
+/* Health Gauge */
+.wpdi-health-card {
+	text-align: center;
+}
+
+.wpdi-gauge-container {
+	position: relative;
+	max-width: 300px;
+	margin: 0 auto;
+}
+
+.wpdi-gauge {
+	width: 100%;
+	height: auto;
+}
+
+.wpdi-gauge-bg {
+	opacity: 0.3;
+}
+
+.wpdi-gauge-needle {
+	transform-origin: 100px 100px;
+	transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wpdi-gauge-labels {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 10px;
+	margin-top: -10px;
+	font-size: 11px;
+	color: #646970;
+}
+
+.wpdi-label-good {
+	color: #22c55e;
+}
+
+.wpdi-label-warning {
+	color: #eab308;
+}
+
+.wpdi-label-critical {
+	color: #ef4444;
+}
+
+.wpdi-health-score {
+	margin-top: 10px;
+}
+
+.wpdi-score-value {
+	font-size: 48px;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.wpdi-health-score[data-score] .wpdi-score-value {
+	color: #22c55e;
+}
+
+.wpdi-health-score[data-score]:not([data-score="0"]):not([data-score="1"]):not([data-score="2"]):not([data-score="3"]):not([data-score="4"]):not([data-score="5"]):not([data-score="6"]):not([data-score="7"]):not([data-score="8"]):not([data-score="9"]):not([data-score="10"]):not([data-score="11"]):not([data-score="12"]):not([data-score="13"]):not([data-score="14"]):not([data-score="15"]):not([data-score="16"]):not([data-score="17"]):not([data-score="18"]):not([data-score="19"]):not([data-score="20"]):not([data-score="21"]):not([data-score="22"]):not([data-score="23"]):not([data-score="24"]):not([data-score="25"]):not([data-score="26"]):not([data-score="27"]):not([data-score="28"]):not([data-score="29"]):not([data-score="30"]):not([data-score="31"]):not([data-score="32"]):not([data-score="33"]):not([data-score="34"]):not([data-score="35"]):not([data-score="36"]):not([data-score="37"]):not([data-score="38"]):not([data-score="39"]):not([data-score="40"]) .wpdi-score-value {
+	color: #eab308;
+}
+
+.wpdi-score-label {
+	font-size: 16px;
+	color: #646970;
+}
+
+/* Stats Grid */
+.wpdi-stats-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 15px;
+}
+
+.wpdi-stat {
+	text-align: center;
+	padding: 15px;
+	background: #f6f7f7;
+	border-radius: 4px;
+}
+
+.wpdi-stat-value {
+	display: block;
+	font-size: 20px;
+	font-weight: 600;
+	color: #1d2327;
+	margin-bottom: 4px;
+}
+
+.wpdi-stat-label {
+	font-size: 12px;
+	color: #646970;
+}
+
+/* Cleanup Card */
+.wpdi-cleanup-card {
+	margin-bottom: 20px;
+}
+
+.wpdi-warning {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px;
+	background: #fcf9e8;
+	border-left: 4px solid #dba617;
+	margin-bottom: 20px;
+	color: #614d00;
+}
+
+.wpdi-warning .dashicons {
+	color: #dba617;
+}
+
+.wpdi-notice {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+}
+
+.wpdi-notice-info {
+	background: #f0f6fc;
+	border-left: 4px solid #72aee6;
+	color: #1d4ed8;
+}
+
+.wpdi-notice-info .dashicons {
+	color: #72aee6;
+}
+
+.wpdi-cleanup-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 12px;
+}
+
+.wpdi-cleanup-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 15px;
+	background: #f6f7f7;
+	border-radius: 4px;
+	transition: background 0.2s;
+}
+
+.wpdi-cleanup-item:hover {
+	background: #f0f0f1;
+}
+
+.wpdi-cleanup-info {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.wpdi-cleanup-info strong {
+	color: #1d2327;
+}
+
+.wpdi-count {
+	background: #2271b1;
+	color: #fff;
+	padding: 2px 8px;
+	border-radius: 10px;
+	font-size: 12px;
+	font-weight: 500;
+}
+
+.wpdi-cleanup-item[data-zero="true"] .wpdi-count {
+	background: #c3c4c7;
+}
+
+.wpdi-cleanup-btn {
+	min-width: 70px;
+}
+
+.wpdi-cleanup-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.wpdi-cleanup-btn.loading {
+	pointer-events: none;
+	position: relative;
+	color: transparent;
+}
+
+.wpdi-cleanup-btn.loading::after {
+	content: "";
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	top: 50%;
+	left: 50%;
+	margin: -7px 0 0 -7px;
+	border: 2px solid #2271b1;
+	border-radius: 50%;
+	border-top-color: transparent;
+	animation: wpdi-spin 0.8s linear infinite;
+}
+
+@keyframes wpdi-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Autoload Table */
+.wpdi-autoload-card {
+	margin-bottom: 20px;
+}
+
+.wpdi-autoload-card .description {
+	margin: 0 0 15px;
+	color: #646970;
+}
+
+.wpdi-autoload-card table {
+	border-collapse: collapse;
+}
+
+.wpdi-autoload-card code {
+	font-size: 12px;
+	background: #f0f0f1;
+	padding: 2px 5px;
+	word-break: break-all;
+}
+
+/* Footer */
+.wpdi-footer {
+	display: flex;
+	gap: 10px;
+	padding: 20px 0;
+}
+
+.wpdi-footer .button .dashicons {
+	margin-right: 4px;
+	vertical-align: middle;
+	margin-top: -2px;
+}
+
+/* Toast Notifications */
+.wpdi-toast {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	padding: 12px 20px;
+	background: #1d2327;
+	color: #fff;
+	border-radius: 4px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	z-index: 99999;
+	animation: wpdi-slide-in 0.3s ease;
+}
+
+.wpdi-toast.success {
+	background: #00a32a;
+}
+
+.wpdi-toast.error {
+	background: #d63638;
+}
+
+@keyframes wpdi-slide-in {
+	from {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+	.wpdi-cleanup-grid {
+		grid-template-columns: 1fr;
+	}
+	
+	.wpdi-stats-grid {
+		grid-template-columns: 1fr;
+	}
+}
