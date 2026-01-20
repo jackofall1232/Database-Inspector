@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       SAC Database Inspector
- * Plugin URI:        https://github.com/jackofall1232/database-inspector
- * Description:       Visualizes database and cache usage, identifies bloated entries, and allows safe manual cleanup.
+ * Plugin URI:        https://github.com/jackofall1232/sac-database-inspector
+ * Description:       Read-only administrative utility for inspecting database tables and cache usage to help identify potential bloat.
  * Version:           0.1.2
  * Requires at least: 6.9
  * Requires PHP:      7.4
@@ -10,10 +10,10 @@
  * Author URI:        https://wordpress.org
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       database-inspector
+ * Text Domain:       sac-database-inspector
  * Domain Path:       /languages
  *
- * @package Database_Inspector
+ * @package WPDI
  */
 
 defined( 'ABSPATH' ) || exit;
