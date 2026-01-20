@@ -25,19 +25,19 @@ define( 'WPDI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Main plugin class.
  */
-final class Database_Inspector {
+final class WPDI_Database_Inspector {
 
 	/**
 	 * Single instance.
 	 *
-	 * @var Database_Inspector|null
+	 * @var WPDI_Database_Inspector|null
 	 */
 	private static $instance = null;
 
 	/**
 	 * Get instance.
 	 *
-	 * @return Database_Inspector
+	 * @return WPDI_Database_Inspector
 	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -65,7 +65,7 @@ final class Database_Inspector {
 	 * Initialize hooks.
 	 */
 	private function init_hooks() {
-		// No manual load_plugin_textdomain() needed on WP.org (WP ≥ 4.6).
+		// WP.org auto-loads text domains (WP >= 4.6).
 		if ( is_admin() ) {
 			WPDI_Admin::instance();
 		}
@@ -86,16 +86,16 @@ final class Database_Inspector {
 	}
 }
 
-register_activation_hook( __FILE__, array( 'Database_Inspector', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'Database_Inspector', 'deactivate' ) );
+register_activation_hook( __FILE__, array( 'WPDI_Database_Inspector', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'WPDI_Database_Inspector', 'deactivate' ) );
 
 /**
  * Initialize plugin.
  *
- * @return Database_Inspector
+ * @return WPDI_Database_Inspector
  */
 function wpdi() {
-	return Database_Inspector::instance();
+	return WPDI_Database_Inspector::instance();
 }
 
 wpdi();
