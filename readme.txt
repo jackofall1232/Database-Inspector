@@ -1,4 +1,4 @@
-=== Database Inspector ===
+=== SAC Database Inspector ===
 Contributors: jackofall1232
 Tags: database cleaner, transients, cache, performance, admin tools
 Requires at least: 6.9
@@ -12,7 +12,7 @@ Inspect database usage, autoloaded options, transients, and safely clean databas
 
 == Description ==
 
-**Database Inspector** is a lightweight, admin-only utility designed to help site administrators understand what is stored in their site’s database and cache — and clean it up safely when needed.
+**SAC Database Inspector** is a lightweight, admin-only utility designed to help site administrators understand what is stored in their site’s database and cache — and clean it up safely when needed.
 
 Unlike aggressive “optimizer” plugins, Database Inspector focuses on **visibility first**, showing you where bloat exists before offering optional, manual cleanup actions.
 
@@ -75,7 +75,7 @@ Yes. Developers can enable read-only mode using the `wpdi_read_only` filter.
 
 == Upgrade Notice ==
 
-= 0.1.1 =
+= 0.1.2 =
 Compliance update. No functional changes.
 
 == Developer Notes ==
