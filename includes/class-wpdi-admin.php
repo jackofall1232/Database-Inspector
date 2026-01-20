@@ -46,8 +46,8 @@ class WPDI_Admin {
 	 */
 	public function add_menu_page() {
 		add_management_page(
-			__( 'Database Inspector', 'database-inspector' ),
-			__( 'DB Inspector', 'database-inspector' ),
+			__( 'Database Inspector', 'sac-database-inspector' ),
+			__( 'DB Inspector', 'sac-database-inspector' ),
 			'manage_options',
 			'database-inspector',
 			array( $this, 'render_page' )
@@ -87,13 +87,13 @@ class WPDI_Admin {
 				'nonce'    => wp_create_nonce( 'wpdi_nonce' ),
 				'readOnly' => $this->is_read_only(),
 				'i18n'     => array(
-					'confirmBackup'    => __( 'Have you backed up your database? This action cannot be undone.', 'database-inspector' ),
-					'confirmProceed'   => __( 'Are you sure you want to proceed with this cleanup?', 'database-inspector' ),
-					'confirmRevisions' => __( 'Delete all post revisions? This cannot be undone.', 'database-inspector' ),
-					'cleaning'         => __( 'Cleaning...', 'database-inspector' ),
-					'success'          => __( 'Cleanup complete!', 'database-inspector' ),
-					'error'            => __( 'An error occurred.', 'database-inspector' ),
-					'readOnlyMode'     => __( 'Read-only mode is enabled.', 'database-inspector' ),
+					'confirmBackup'    => __( 'Have you backed up your database? This action cannot be undone.', 'sac-database-inspector' ),
+					'confirmProceed'   => __( 'Are you sure you want to proceed with this cleanup?', 'sac-database-inspector' ),
+					'confirmRevisions' => __( 'Delete all post revisions? This cannot be undone.', 'sac-database-inspector' ),
+					'cleaning'         => __( 'Cleaning...', 'sac-database-inspector' ),
+					'success'          => __( 'Cleanup complete!', 'sac-database-inspector' ),
+					'error'            => __( 'An error occurred.', 'sac-database-inspector' ),
+					'readOnlyMode'     => __( 'Read-only mode is enabled.', 'sac-database-inspector' ),
 				),
 			)
 		);
@@ -329,11 +329,11 @@ class WPDI_Admin {
 		check_ajax_referer( 'wpdi_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Unauthorized', 'database-inspector' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Unauthorized', 'sac-database-inspector' ) ) );
 		}
 
 		if ( $this->is_read_only() ) {
-			wp_send_json_error( array( 'message' => __( 'Read-only mode is enabled. Cleanup actions are disabled.', 'database-inspector' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Read-only mode is enabled. Cleanup actions are disabled.', 'sac-database-inspector' ) ) );
 		}
 
 		$action = isset( $_POST['cleanup_action'] ) ? sanitize_text_field( wp_unslash( $_POST['cleanup_action'] ) ) : '';
@@ -395,7 +395,7 @@ class WPDI_Admin {
 		if ( ! in_array( $action, $allowed_actions, true ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Invalid action.', 'database-inspector' ),
+				'message' => __( 'Invalid action.', 'sac-database-inspector' ),
 			);
 		}
 
@@ -533,7 +533,7 @@ class WPDI_Admin {
 			'deleted' => $deleted,
 			'message' => sprintf(
 				/* translators: %d: number of items deleted */
-				__( 'Cleaned up %d items.', 'database-inspector' ),
+				__( 'Cleaned up %d items.', 'sac-database-inspector' ),
 				$deleted
 			),
 		);
@@ -561,18 +561,18 @@ class WPDI_Admin {
 	 */
 	public function render_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'database-inspector' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'sac-database-inspector' ) );
 		}
 
 		$stats = $this->get_database_stats();
 		?>
 		<div class="wrap wpdi-wrap">
-			<h1><?php esc_html_e( 'Database Inspector', 'database-inspector' ); ?></h1>
+			<h1><?php esc_html_e( 'Database Inspector', 'sac-database-inspector' ); ?></h1>
 			
 			<div class="wpdi-dashboard">
 				<!-- Health Gauge -->
 				<div class="wpdi-card wpdi-health-card">
-					<h2><?php esc_html_e( 'Database Health', 'database-inspector' ); ?></h2>
+					<h2><?php esc_html_e( 'Database Health', 'sac-database-inspector' ); ?></h2>
 					<div class="wpdi-gauge-container">
 						<svg class="wpdi-gauge" viewBox="0 0 200 120">
 							<defs>
@@ -591,36 +591,36 @@ class WPDI_Admin {
 							<circle cx="100" cy="100" r="8" fill="#1f2937"/>
 						</svg>
 						<div class="wpdi-gauge-labels">
-							<span class="wpdi-label-good"><?php esc_html_e( 'Good', 'database-inspector' ); ?></span>
-							<span class="wpdi-label-warning"><?php esc_html_e( 'Warning', 'database-inspector' ); ?></span>
-							<span class="wpdi-label-critical"><?php esc_html_e( 'Critical', 'database-inspector' ); ?></span>
+							<span class="wpdi-label-good"><?php esc_html_e( 'Good', 'sac-database-inspector' ); ?></span>
+							<span class="wpdi-label-warning"><?php esc_html_e( 'Warning', 'sac-database-inspector' ); ?></span>
+							<span class="wpdi-label-critical"><?php esc_html_e( 'Critical', 'sac-database-inspector' ); ?></span>
 						</div>
 						<div class="wpdi-health-score" data-score="<?php echo esc_attr( $stats['health_score'] ); ?>">
 							<span class="wpdi-score-value"><?php echo esc_html( $stats['health_score'] ); ?></span>
-							<span class="wpdi-score-label"><?php esc_html_e( '/ 100', 'database-inspector' ); ?></span>
+							<span class="wpdi-score-label"><?php esc_html_e( '/ 100', 'sac-database-inspector' ); ?></span>
 						</div>
 					</div>
 				</div>
 
 				<!-- Summary Stats -->
 				<div class="wpdi-card wpdi-summary-card">
-					<h2><?php esc_html_e( 'Overview', 'database-inspector' ); ?></h2>
+					<h2><?php esc_html_e( 'Overview', 'sac-database-inspector' ); ?></h2>
 					<div class="wpdi-stats-grid">
 						<div class="wpdi-stat">
 							<span class="wpdi-stat-value"><?php echo esc_html( self::format_bytes( $stats['total_db_size'] ) ); ?></span>
-							<span class="wpdi-stat-label"><?php esc_html_e( 'Total DB Size', 'database-inspector' ); ?></span>
+							<span class="wpdi-stat-label"><?php esc_html_e( 'Total DB Size', 'sac-database-inspector' ); ?></span>
 						</div>
 						<div class="wpdi-stat">
 							<span class="wpdi-stat-value"><?php echo esc_html( self::format_bytes( $stats['autoload_size'] ) ); ?></span>
-							<span class="wpdi-stat-label"><?php esc_html_e( 'Autoload Size', 'database-inspector' ); ?></span>
+							<span class="wpdi-stat-label"><?php esc_html_e( 'Autoload Size', 'sac-database-inspector' ); ?></span>
 						</div>
 						<div class="wpdi-stat">
 							<span class="wpdi-stat-value"><?php echo esc_html( number_format( $stats['autoload_count'] ) ); ?></span>
-							<span class="wpdi-stat-label"><?php esc_html_e( 'Autoloaded Options', 'database-inspector' ); ?></span>
+							<span class="wpdi-stat-label"><?php esc_html_e( 'Autoloaded Options', 'sac-database-inspector' ); ?></span>
 						</div>
 						<div class="wpdi-stat">
-							<span class="wpdi-stat-value"><?php echo esc_html( $stats['object_cache_enabled'] ? __( 'Yes', 'database-inspector' ) : __( 'No', 'database-inspector' ) ); ?></span>
-							<span class="wpdi-stat-label"><?php esc_html_e( 'Object Cache', 'database-inspector' ); ?></span>
+							<span class="wpdi-stat-value"><?php echo esc_html( $stats['object_cache_enabled'] ? __( 'Yes', 'sac-database-inspector' ) : __( 'No', 'sac-database-inspector' ) ); ?></span>
+							<span class="wpdi-stat-label"><?php esc_html_e( 'Object Cache', 'sac-database-inspector' ); ?></span>
 						</div>
 					</div>
 				</div>
@@ -628,119 +628,119 @@ class WPDI_Admin {
 
 			<!-- Cleanup Actions -->
 			<div class="wpdi-card wpdi-cleanup-card">
-				<h2><?php esc_html_e( 'Cleanup Actions', 'database-inspector' ); ?></h2>
+				<h2><?php esc_html_e( 'Cleanup Actions', 'sac-database-inspector' ); ?></h2>
 				
 				<?php if ( $this->is_read_only() ) : ?>
 				<p class="wpdi-notice wpdi-notice-info">
 					<span class="dashicons dashicons-lock"></span>
-					<?php esc_html_e( 'Read-only mode is enabled. Cleanup actions are disabled.', 'database-inspector' ); ?>
+					<?php esc_html_e( 'Read-only mode is enabled. Cleanup actions are disabled.', 'sac-database-inspector' ); ?>
 				</p>
 				<?php else : ?>
 				<p class="wpdi-warning">
 					<span class="dashicons dashicons-warning"></span>
-					<?php esc_html_e( 'Warning: These actions cannot be undone. Please ensure you have a database backup before proceeding.', 'database-inspector' ); ?>
+					<?php esc_html_e( 'Warning: These actions cannot be undone. Please ensure you have a database backup before proceeding.', 'sac-database-inspector' ); ?>
 				</p>
 				<?php endif; ?>
 				
 				<div class="wpdi-cleanup-grid">
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'Expired Transients', 'database-inspector' ); ?></strong>
+							<strong><?php esc_html_e( 'Expired Transients', 'sac-database-inspector' ); ?></strong>
 							<span class="wpdi-count"><?php echo esc_html( number_format( $stats['expired_transients'] ) ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="expired_transients" <?php disabled( $this->is_read_only() || 0 === $stats['expired_transients'] ); ?>>
-							<?php esc_html_e( 'Clean', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Clean', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'All Transients', 'database-inspector' ); ?></strong>
+							<strong><?php esc_html_e( 'All Transients', 'sac-database-inspector' ); ?></strong>
 							<span class="wpdi-count"><?php echo esc_html( number_format( $stats['transient_count'] ) ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="all_transients" <?php disabled( $this->is_read_only() || 0 === $stats['transient_count'] ); ?>>
-							<?php esc_html_e( 'Clean', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Clean', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'Post Revisions', 'database-inspector' ); ?></strong>
+							<strong><?php esc_html_e( 'Post Revisions', 'sac-database-inspector' ); ?></strong>
 							<span class="wpdi-count"><?php echo esc_html( number_format( $stats['revisions_count'] ) ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="revisions" <?php disabled( $this->is_read_only() || 0 === $stats['revisions_count'] ); ?>>
-							<?php esc_html_e( 'Clean', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Clean', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'Auto-Drafts', 'database-inspector' ); ?></strong>
+							<strong><?php esc_html_e( 'Auto-Drafts', 'sac-database-inspector' ); ?></strong>
 							<span class="wpdi-count"><?php echo esc_html( number_format( $stats['auto_drafts_count'] ) ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="auto_drafts" <?php disabled( $this->is_read_only() || 0 === $stats['auto_drafts_count'] ); ?>>
-							<?php esc_html_e( 'Clean', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Clean', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'Trashed Posts', 'database-inspector' ); ?></strong>
+							<strong><?php esc_html_e( 'Trashed Posts', 'sac-database-inspector' ); ?></strong>
 							<span class="wpdi-count"><?php echo esc_html( number_format( $stats['trashed_posts_count'] ) ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="trashed_posts" <?php disabled( $this->is_read_only() || 0 === $stats['trashed_posts_count'] ); ?>>
-							<?php esc_html_e( 'Clean', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Clean', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'Orphaned Post Meta', 'database-inspector' ); ?></strong>
+							<strong><?php esc_html_e( 'Orphaned Post Meta', 'sac-database-inspector' ); ?></strong>
 							<span class="wpdi-count"><?php echo esc_html( number_format( $stats['orphaned_postmeta'] ) ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="orphaned_postmeta" <?php disabled( $this->is_read_only() || 0 === $stats['orphaned_postmeta'] ); ?>>
-							<?php esc_html_e( 'Clean', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Clean', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'Orphaned Comment Meta', 'database-inspector' ); ?></strong>
+							<strong><?php esc_html_e( 'Orphaned Comment Meta', 'sac-database-inspector' ); ?></strong>
 							<span class="wpdi-count"><?php echo esc_html( number_format( $stats['orphaned_commentmeta'] ) ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="orphaned_commentmeta" <?php disabled( $this->is_read_only() || 0 === $stats['orphaned_commentmeta'] ); ?>>
-							<?php esc_html_e( 'Clean', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Clean', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'Spam Comments', 'database-inspector' ); ?></strong>
+							<strong><?php esc_html_e( 'Spam Comments', 'sac-database-inspector' ); ?></strong>
 							<span class="wpdi-count"><?php echo esc_html( number_format( $stats['spam_comments'] ) ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="spam_comments" <?php disabled( $this->is_read_only() || 0 === $stats['spam_comments'] ); ?>>
-							<?php esc_html_e( 'Clean', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Clean', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'Trashed Comments', 'database-inspector' ); ?></strong>
+							<strong><?php esc_html_e( 'Trashed Comments', 'sac-database-inspector' ); ?></strong>
 							<span class="wpdi-count"><?php echo esc_html( number_format( $stats['trashed_comments'] ) ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="trashed_comments" <?php disabled( $this->is_read_only() || 0 === $stats['trashed_comments'] ); ?>>
-							<?php esc_html_e( 'Clean', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Clean', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 
 					<?php if ( $stats['object_cache_enabled'] ) : ?>
 					<div class="wpdi-cleanup-item">
 						<div class="wpdi-cleanup-info">
-							<strong><?php esc_html_e( 'Object Cache', 'database-inspector' ); ?></strong>
-							<span class="wpdi-count"><?php esc_html_e( 'Active', 'database-inspector' ); ?></span>
+							<strong><?php esc_html_e( 'Object Cache', 'sac-database-inspector' ); ?></strong>
+							<span class="wpdi-count"><?php esc_html_e( 'Active', 'sac-database-inspector' ); ?></span>
 						</div>
 						<button class="button wpdi-cleanup-btn" data-action="object_cache" <?php disabled( $this->is_read_only() ); ?>>
-							<?php esc_html_e( 'Flush', 'database-inspector' ); ?>
+							<?php esc_html_e( 'Flush', 'sac-database-inspector' ); ?>
 						</button>
 					</div>
 					<?php endif; ?>
@@ -749,14 +749,14 @@ class WPDI_Admin {
 
 			<!-- Top Autoloaded Options -->
 			<div class="wpdi-card wpdi-autoload-card">
-				<h2><?php esc_html_e( 'Top Autoloaded Options', 'database-inspector' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'These options load on every page request. Large values here can slow down your site.', 'database-inspector' ); ?></p>
+				<h2><?php esc_html_e( 'Top Autoloaded Options', 'sac-database-inspector' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'These options load on every page request. Large values here can slow down your site.', 'sac-database-inspector' ); ?></p>
 				
 				<table class="widefat striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Option Name', 'database-inspector' ); ?></th>
-							<th style="width: 120px;"><?php esc_html_e( 'Size', 'database-inspector' ); ?></th>
+							<th><?php esc_html_e( 'Option Name', 'sac-database-inspector' ); ?></th>
+							<th style="width: 120px;"><?php esc_html_e( 'Size', 'sac-database-inspector' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -773,11 +773,10 @@ class WPDI_Admin {
 			<div class="wpdi-footer">
 				<button id="wpdi-refresh" class="button button-secondary">
 					<span class="dashicons dashicons-update"></span>
-					<?php esc_html_e( 'Refresh Stats', 'database-inspector' ); ?>
+					<?php esc_html_e( 'Refresh Stats', 'sac-database-inspector' ); ?>
 				</button>
 			</div>
 		</div>
 		<?php
 	}
 }
-
