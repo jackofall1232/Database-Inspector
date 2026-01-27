@@ -4,7 +4,7 @@ Tags: database cleaner, transients, cache, performance, admin tools
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.3
+Stable tag: 0.2.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ Unlike aggressive “optimizer” plugins, Database Inspector focuses on **visib
 * Optional read-only mode via filter for audit-only environments
 * Multisite-aware and shared-host safe
 * No frontend impact — admin-only
+* Contextual source identification for autoloaded options
 
 All cleanup actions require explicit confirmation and are protected by nonces and capability checks.
 
@@ -53,6 +54,9 @@ No. The plugin loads only in the admin area.
 = Can I disable cleanup actions? =
 Yes. Developers can enable read-only mode using the `wpdi_read_only` filter.
 
+= How does the plugin identify option sources? =
+The plugin uses pattern matching based on option name prefixes and common WordPress naming conventions. This is an educated guess, not definitive information. Source identification helps you understand which plugin or system component likely created an option.
+
 == Screenshots ==
 
 1. Database health gauge and overview
@@ -60,6 +64,11 @@ Yes. Developers can enable read-only mode using the `wpdi_read_only` filter.
 3. Top autoloaded options table
 
 == Changelog ==
+
+= 0.2.0 =
+* Added: Source identification column in autoloaded options table
+* Added: Pattern-based detection for common plugins and WordPress core options
+* Improved: Better context for understanding option origins
 
 = 0.1.1 =
 * Naming and compliance updates

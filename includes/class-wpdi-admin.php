@@ -540,6 +540,134 @@ class WPDI_Admin {
 	}
 
 	/**
+	 * Infer option source from option name.
+	 *
+	 * @param string $option_name Option name to analyze.
+	 * @return string Source label.
+	 */
+	private function get_option_source( $option_name ) {
+		if ( empty( $option_name ) || ! is_string( $option_name ) ) {
+			return __( 'Unknown / custom', 'sac-database-inspector' );
+		}
+
+		$name_lower = strtolower( $option_name );
+
+		// Exact matches (WordPress Core).
+		$core_options = array(
+			'active_plugins', 'admin_email', 'blogdescription', 'blogname', 'siteurl', 'home',
+			'permalink_structure', 'default_role', 'users_can_register', 'timezone_string',
+			'date_format', 'time_format', 'blog_public', 'posts_per_page', 'db_version',
+			'wp_user_roles', 'current_theme', 'stylesheet', 'template', 'sidebars_widgets',
+		);
+		if ( in_array( $name_lower, $core_options, true ) ) {
+			return __( 'WordPress Core', 'sac-database-inspector' );
+		}
+
+		// Multisite exact matches.
+		if ( is_multisite() ) {
+			$multisite_options = array( 'site_admins', 'active_sitewide_plugins' );
+			if ( in_array( $name_lower, $multisite_options, true ) ) {
+				return __( 'Multisite Network', 'sac-database-inspector' );
+			}
+		}
+
+		// Pattern matching (ordered by specificity).
+		$patterns = array(
+			// E-commerce.
+			'woocommerce_'      => 'WooCommerce',
+			'wc_'               => 'WooCommerce',
+			'edd_'              => 'Easy Digital Downloads',
+			// SEO.
+			'wpseo_'            => 'Yoast SEO',
+			'_yoast_'           => 'Yoast SEO',
+			'aioseop_'          => 'All in One SEO',
+			'rank_math_'        => 'Rank Math',
+			// Page Builders.
+			'elementor_'        => 'Elementor',
+			'_elementor_'       => 'Elementor',
+			'fl_builder_'       => 'Beaver Builder',
+			'fusion_'           => 'Avada',
+			'vc_'               => 'WPBakery',
+			'divi_'             => 'Divi',
+			// Performance.
+			'w3tc_'             => 'W3 Total Cache',
+			'wp_rocket_'        => 'WP Rocket',
+			'autoptimize_'      => 'Autoptimize',
+			'litespeed_'        => 'LiteSpeed Cache',
+			// Security.
+			'wordfence_'        => 'Wordfence',
+			'itsec_'            => 'iThemes Security',
+			'sucuri_'           => 'Sucuri',
+			// Backup.
+			'updraftplus_'      => 'UpdraftPlus',
+			'backwpup_'         => 'BackWPup',
+			'duplicator_'       => 'Duplicator',
+			// Forms.
+			'wpforms_'          => 'WPForms',
+			'gf_'               => 'Gravity Forms',
+			'ninja_forms_'      => 'Ninja Forms',
+			'cf7_'              => 'Contact Form 7',
+			'frm_'              => 'Formidable Forms',
+			// Membership/LMS.
+			'pmpro_'            => 'Paid Memberships Pro',
+			'mepr_'             => 'MemberPress',
+			'learndash_'        => 'LearnDash',
+			'lifterlms_'        => 'LifterLMS',
+			// Media.
+			'smush_'            => 'Smush',
+			'ewww_'             => 'EWWW Image Optimizer',
+			'envira_'           => 'Envira Gallery',
+			'nextgen_'          => 'NextGEN Gallery',
+			// External Services.
+			'jetpack_'          => 'Jetpack',
+			'akismet_'          => 'Akismet',
+			'mailchimp_'        => 'Mailchimp',
+			// WordPress Core patterns.
+			'_site_transient_'  => __( 'WordPress Core', 'sac-database-inspector' ),
+			'_transient_'       => __( 'WordPress Core', 'sac-database-inspector' ),
+			'theme_mods_'       => __( 'Theme System', 'sac-database-inspector' ),
+			'widget_'           => __( 'WordPress Core', 'sac-database-inspector' ),
+			'cron'              => __( 'WordPress Core', 'sac-database-inspector' ),
+			'_cron_'            => __( 'WordPress Core', 'sac-database-inspector' ),
+			'wp_'               => __( 'WordPress Core', 'sac-database-inspector' ),
+		);
+
+		// Multisite patterns.
+		if ( is_multisite() ) {
+			$patterns['_site_'] = __( 'Multisite Network', 'sac-database-inspector' );
+		}
+
+		foreach ( $patterns as $prefix => $source ) {
+			if ( 0 === stripos( $name_lower, $prefix ) ) {
+				// Check if source is already translated (WordPress Core patterns).
+				if ( is_string( $source ) && false === strpos( $source, 'WordPress' ) && false === strpos( $source, 'Theme' ) && false === strpos( $source, 'Multisite' ) ) {
+					/* translators: %s: Plugin or service name */
+					return sprintf( __( 'Likely: %s', 'sac-database-inspector' ), $source );
+				}
+				return $source;
+			}
+		}
+
+		// Contains patterns (less reliable).
+		$contains = array(
+			'_jetpack_'  => 'Jetpack',
+			'_akismet_'  => 'Akismet',
+			'_network_'  => __( 'Multisite Network', 'sac-database-inspector' ),
+		);
+
+		foreach ( $contains as $substring => $source ) {
+			if ( false !== stripos( $name_lower, $substring ) ) {
+				if ( is_string( $source ) && false === strpos( $source, 'Multisite' ) ) {
+					return sprintf( __( 'Likely: %s', 'sac-database-inspector' ), $source );
+				}
+				return $source;
+			}
+		}
+
+		return __( 'Unknown / custom', 'sac-database-inspector' );
+	}
+
+	/**
 	 * Format bytes to human readable.
 	 *
 	 * @param int $bytes Number of bytes.
@@ -756,18 +884,23 @@ class WPDI_Admin {
 					<thead>
 						<tr>
 							<th><?php esc_html_e( 'Option Name', 'sac-database-inspector' ); ?></th>
-							<th style="width: 120px;"><?php esc_html_e( 'Size', 'sac-database-inspector' ); ?></th>
+							<th><?php esc_html_e( 'Likely Source', 'sac-database-inspector' ); ?></th>
+							<th style="width: 100px;"><?php esc_html_e( 'Size', 'sac-database-inspector' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ( $stats['top_autoload'] as $option ) : ?>
 						<tr>
 							<td><code><?php echo esc_html( $option->option_name ); ?></code></td>
+							<td><?php echo esc_html( $this->get_option_source( $option->option_name ) ); ?></td>
 							<td><?php echo esc_html( self::format_bytes( $option->size ) ); ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+				<p class="description" style="margin-top: 10px;">
+					<?php esc_html_e( 'Source is inferred from option naming patterns and may not be exact.', 'sac-database-inspector' ); ?>
+				</p>
 			</div>
 
 			<div class="wpdi-footer">

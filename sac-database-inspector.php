@@ -3,7 +3,7 @@
  * Plugin Name:       SAC Database Inspector
  * Plugin URI:        https://github.com/jackofall1232/sac-database-inspector
  * Description:       Read-only administrative utility for inspecting database tables and cache usage to help identify potential bloat.
- * Version:           0.1.3
+ * Version:           0.2.0
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * Author:            jackofall1232
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WPDI_VERSION', '0.1.3' );
+define( 'WPDI_VERSION', '0.2.0' );
 define( 'WPDI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPDI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
