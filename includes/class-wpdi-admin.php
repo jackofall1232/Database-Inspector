@@ -658,6 +658,7 @@ class WPDI_Admin {
 		foreach ( $contains as $substring => $source ) {
 			if ( false !== stripos( $name_lower, $substring ) ) {
 				if ( is_string( $source ) && false === strpos( $source, 'Multisite' ) ) {
+					/* translators: %s: Plugin or service name */
 					return sprintf( __( 'Likely: %s', 'sac-database-inspector' ), $source );
 				}
 				return $source;
