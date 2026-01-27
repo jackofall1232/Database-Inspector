@@ -272,6 +272,11 @@
 	border-collapse: collapse;
 }
 
+.wpdi-autoload-card table th:nth-child(2),
+.wpdi-autoload-card table td:nth-child(2) {
+	width: 30%;
+}
+
 .wpdi-autoload-card code {
 	font-size: 12px;
 	background: #f0f0f1;
