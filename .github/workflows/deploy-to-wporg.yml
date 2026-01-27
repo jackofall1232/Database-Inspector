@@ -1,0 +1,47 @@
+name: Deploy to WordPress.org
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout full history (needed for tag context)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify plugin version matches tag
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          FILE="sac-database-inspector.php"
+
+          if [ ! -f "$FILE" ]; then
+            echo "Main plugin file not found at $FILE"
+            exit 1
+          fi
+
+          VER=$(grep -Eoi '^.*Version:\s*[0-9]+\.[0-9]+\.[0-9]+' "$FILE" \
+            | head -n1 \
+            | sed -E 's/.*Version:\s*//')
+
+          echo "Tag: $TAG  |  Header Version: $VER"
+
+          if [ "$TAG" != "$VER" ]; then
+            echo "Tag ($TAG) does not match plugin header Version ($VER)."
+            exit 1
+          fi
+
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          slug: sac-database-inspector
+          assets-dir: .wordpress-org
+        env:
+          SVN_USERNAME: ${{ secrets.WPORG_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.WPORG_PASSWORD }}
