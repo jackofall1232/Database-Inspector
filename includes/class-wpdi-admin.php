@@ -547,7 +547,7 @@ class WPDI_Admin {
 	 */
 	private function get_option_source( $option_name ) {
 		if ( empty( $option_name ) || ! is_string( $option_name ) ) {
-			return __( 'Unknown / custom', 'sac-database-inspector' );
+			return __( 'Custom / third-party', 'sac-database-inspector' );
 		}
 
 		$name_lower = strtolower( $option_name );
@@ -658,13 +658,14 @@ class WPDI_Admin {
 		foreach ( $contains as $substring => $source ) {
 			if ( false !== stripos( $name_lower, $substring ) ) {
 				if ( is_string( $source ) && false === strpos( $source, 'Multisite' ) ) {
+					/* translators: %s: Plugin or service name */
 					return sprintf( __( 'Likely: %s', 'sac-database-inspector' ), $source );
 				}
 				return $source;
 			}
 		}
 
-		return __( 'Unknown / custom', 'sac-database-inspector' );
+		return __( 'Custom / third-party', 'sac-database-inspector' );
 	}
 
 	/**
